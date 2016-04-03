@@ -1,1 +1,1 @@
-module.exports = require('./lib/bluemix-sitespeed-utils');
+module.exports = require('./lib/sitespeed-utils');
