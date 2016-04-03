@@ -1,1 +1,1 @@
-Utility to help run sitespeed.io functionality.
+Convenience utility to run [sitespeed.io](https://www.sitespeed.io/) tests using ES6 promises.
