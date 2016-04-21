@@ -32,3 +32,9 @@ node_modules
 #Mac specific files
 .DS_Store
 env.json
+
+# sitespeed test result
+sitespeed-result
+
+# test entry
+main.js
