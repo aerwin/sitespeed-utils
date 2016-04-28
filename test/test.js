@@ -4,44 +4,13 @@ var url = require('url');
 var expect = require('chai').expect;
 var objectAssign = require('object-assign');
 var format = require('string-format');
-var rimraf = require("rimraf");
-var fs = require('fs');
 var common = require('../lib/common')
+var timeout  = 60000
 
-/*rimraf('sitespeed-result', function(err) {
-    console.log("delete legacy test data success")
-});
-*/
+var baseUrl = spUtilsCfg.baseUrl;
+var testCases = spUtilsCfg.testCases;
+var requestHeaders = spUtilsCfg.requestHeaders;
 
-var path1 = __dirname + '/../../../config/budget-testcases.json';
-var path2 = __dirname + '/../config/budget-testcases.json';
-var config = process.env.BUDGET_TESTCASES;
-if (!config) {
-    if (fs.existsSync(path1)) {
-        console.log("test case config path is " + path1)
-        try {
-            config = require(path1);
-        } catch (e) {
-            console.dir(e);
-            console.error('Error loading budget test case file ' + path1);
-            process.exit(1);
-        }
-    } else if (fs.existsSync(path2)) {
-        console.log("test case config path is " + path2)
-        try {
-            config = require(path2);
-        } catch (e) {
-            console.dir(e);
-            console.error('Error loading budget test case file ' + path2);
-            process.exit(1);
-        }
-    } else {
-        console.error('please configure test case file in ' + path1 + ' or ' + path2);
-        process.exit(1);
-    }
-}
-var baseUrl = config.baseUrl;
-var testCases = config.testCases;
 if (!baseUrl) {
     console.error('Error find base url');
     process.exit(1);
@@ -50,6 +19,9 @@ if (!baseUrl) {
 if (!testCases || testCases.length === 0) {
     console.error('Error find test case(s)');
     process.exit(1)
+}
+if((spUtilsCfg.timeout) && (typeof spUtilsCfg.timeout === 'number')){
+    timeout = spUtilsCfg.timeout
 }
 
 // Default options for all of the urls
@@ -72,7 +44,7 @@ function buildUrl(baseUrl, urlParams, pathname) {
 
 describe('Sitespeed Budgets', function() {
     // Need to bump up time for the Sitespeed tests
-    this.timeout(60000);
+    this.timeout(timeout);
     // Loop through the test data
     testCases.forEach(function(test) {
         var urlStr = buildUrl(baseUrl, test.urlParams, test.pathname);
@@ -80,6 +52,9 @@ describe('Sitespeed Budgets', function() {
             url: urlStr,
             budget: test.budget
         });
+        if (requestHeaders) {
+            options.requestHeaders = requestHeaders
+        }
         var sitespeedData;
         describe(format('Run Sitespeed for {url}', {
             url: urlStr
