@@ -1,9 +1,13 @@
 {
   "name": "sitespeed-utils",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Convenience utility to run sitespeed.io tests using ES6 promises.",
   "main": "index.js",
   "author": "Tony Erwin <tony@tonyerwin.com>",
+  "contributors": [{
+    "name": "Michael Zuo",
+    "email": "kakazuo19@163.com"
+  }],
   "repository": {
     "type": "git",
     "url": "https://github.com/aerwin/sitespeed-utils"
