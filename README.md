@@ -6,9 +6,9 @@ Convenience utility to run [sitespeed.io](https://www.sitespeed.io/) tests using
 ## run performance budget test using mocha
 
 ```
-var spUtil = require('./lib/sitespeed-utils');
+var spUtil = require('sitespeed-utils');
 
-// load config from a file
+// load config from a file（path can be specified）
 var config = require('./config/budget-testcases.json')
 
 // add new parameter(s) dynamically if needed

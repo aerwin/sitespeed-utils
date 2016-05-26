@@ -4,8 +4,8 @@ var url = require('url');
 var expect = require('chai').expect;
 var objectAssign = require('object-assign');
 var format = require('string-format');
-var common = require('../lib/common')
-var timeout  = 60000
+var common = require('../lib/common');
+var timeout = 60000;
 
 var baseUrl = spUtilsCfg.baseUrl;
 var testCases = spUtilsCfg.testCases;
@@ -18,10 +18,10 @@ if (!baseUrl) {
 
 if (!testCases || testCases.length === 0) {
     console.error('Error find test case(s)');
-    process.exit(1)
+    process.exit(1);
 }
-if((spUtilsCfg.timeout) && (typeof spUtilsCfg.timeout === 'number')){
-    timeout = spUtilsCfg.timeout
+if ((spUtilsCfg.timeout) && (typeof spUtilsCfg.timeout === 'number')) {
+    timeout = spUtilsCfg.timeout;
 }
 
 // Default options for all of the urls
@@ -53,7 +53,7 @@ describe('Sitespeed Budgets', function() {
             budget: test.budget
         });
         if (requestHeaders) {
-            options.requestHeaders = requestHeaders
+            options.requestHeaders = requestHeaders;
         }
         var sitespeedData;
         describe(format('Run Sitespeed for {url}', {
