@@ -104,6 +104,7 @@
 	"worker" : false, //?since version? This option defines globals available when your code is running inside of a Web Worker.
 	"wsh" : false, // Enable globals available when your code is running as a script for the Windows Script Host.
 	"yui" : false, //?since version? This option defines globals exposed by the YUI JavaScript framework.
+	"mocha": true,
 	
 	// == JSLint Legacy ===================================================
 	//
