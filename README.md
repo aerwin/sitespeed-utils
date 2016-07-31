@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/aerwin/sitespeed-utils.svg?branch=master)](https://travis-ci.org/aerwin/sitespeed-utils)
+
 Convenience utility to run [sitespeed.io](https://www.sitespeed.io/) tests using ES6 promises. In addition, it faciliates integration of sitespeed.io budget tests with [Mocha](https://mochajs.org/).
 
 # usage examples:
