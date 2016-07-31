@@ -1,4 +1,4 @@
-Convenience utility to run [sitespeed.io](https://www.sitespeed.io/) tests using ES6 promises. In addition, it faciliates integration of sitespeed.io tests with [Mocha](https://mochajs.org/).
+Convenience utility to run [sitespeed.io](https://www.sitespeed.io/) tests using ES6 promises. In addition, it faciliates integration of sitespeed.io budget tests with [Mocha](https://mochajs.org/).
 
 # usage examples:
 ## run a sitespeed.io test
