@@ -1,0 +1,52 @@
+{
+  "baseUrl": "http://sitespeed.io",
+  "mochaTimeout": 120000,
+  "testCases": [
+    {
+      "pathname": "/",
+      "budget": {
+        "rules": {
+          "criticalpath": -1,
+          "spof": 10,
+          "cssnumreq": 10,
+          "cssimagesnumreq": 10,
+          "jsnumreq": 10,
+          "yemptysrc": 10,
+          "ycompress": 10,
+          "ycsstop": 10,
+          "yjsbottom": 10,
+          "yexpressions": 10,
+          "ydns": 10,
+          "yminify": 10,
+          "redirects": -1,
+          "noduplicates": 10,
+          "yetags": 10,
+          "yxhr": 10,
+          "yxhrmethod": 10,
+          "mindom": 10,
+          "yno404": 10,
+          "ymincookie": 10,
+          "ycookiefree": 10,
+          "ynofilter": 10,
+          "avoidscalingimages": 10,
+          "yfavicon": 10,
+          "thirdpartyasyncjs": 10,
+          "cssprint": 10,
+          "cssinheaddomain": 10,
+          "syncjsinhead": 10,
+          "avoidfont": 10,
+          "totalrequests": 10,
+          "expiresmod": -1,
+          "longexpirehead": -1,
+          "nodnslookupswhenfewrequests": 10,
+          "inlinecsswhenfewrequest": 10,
+          "textcontent": 5,
+          "thirdpartyversions": 10,
+          "ycdn": -1,
+          "connectionclose": -1,
+          "privateheaders": 10
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,6 @@
+{
+  "url": "http://www.cnn.com",
+
+  "comment-on-depth": "Depth of 0 has to be specified as a string or it is ingnored.",
+  "depth": "0"
+}

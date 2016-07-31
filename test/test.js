@@ -1,89 +1,55 @@
-'use strict';
-
-var url = require('url');
+var sitespeedUtil = require('../lib/sitespeed-utils');
 var expect = require('chai').expect;
-var objectAssign = require('object-assign');
-var format = require('string-format');
-var common = require('../lib/common');
-var timeout = 60000;
 
-var baseUrl = spUtilsCfg.baseUrl;
-var testCases = spUtilsCfg.testCases;
-var requestHeaders = spUtilsCfg.requestHeaders;
+// invoke performance budget mocha test
+describe('Sitespeed Utils Test', function() {
+    // load config from a file（path can be specified）
+    var config = require('./config/mocha-budget.json');
 
-if (!baseUrl) {
-    console.error('Error find base url');
-    process.exit(1);
-}
+    // add new parameter(s) dynamically (if needed for things like authentication cookies)
+    // config.requestHeaders = {Cookie: cookie};
 
-if (!testCases || testCases.length === 0) {
-    console.error('Error find test case(s)');
-    process.exit(1);
-}
-if ((spUtilsCfg.timeout) && (typeof spUtilsCfg.timeout === 'number')) {
-    timeout = spUtilsCfg.timeout;
-}
+    // Determine the mochaTimeout threshold
+    var mochaTimeout = (typeof config.mochaTimeout === 'number' && config.mochaTimeout) || 120000;
 
-// Default options for all of the urls
-var baseOptions = {
-    depth: '0', // To set to 0, needs to be a string,
-    showFailedOnly: false,
-    budget: {
-        rules: {}
-    },
-};
-
-function buildUrl(baseUrl, urlParams, pathname) {
-    var urlObj = url.parse(baseUrl);
-    urlObj.query = urlParams;
-    if (pathname) {
-        urlObj.pathname = pathname;
-    }
-    return url.format(urlObj);
-}
-
-describe('Sitespeed Budgets', function() {
     // Need to bump up time for the Sitespeed tests
-    this.timeout(timeout);
-    // Loop through the test data
-    testCases.forEach(function(test) {
-        var urlStr = buildUrl(baseUrl, test.urlParams, test.pathname);
-        var options = objectAssign({}, baseOptions, {
-            url: urlStr,
-            budget: test.budget
-        });
-        if (requestHeaders) {
-            options.requestHeaders = requestHeaders;
-        }
-        var sitespeedData;
-        describe(format('Run Sitespeed for {url}', {
-            url: urlStr
-        }), function() {
-            beforeEach(function() {
-                return common.run(options).then(
-                    function(data) {
-                        sitespeedData = data;
-                    });
-            });
-            it(format('Test budgets for {url}', {
-                url: urlStr
-            }), function() {
-                var budget = sitespeedData.budget;
-                var showFailedOnly = options.showFailedOnly;
-                describe(format('individual rules for {url}', {
-                    url: urlStr
-                }), function() {
-                    if (budget) {
-                        budget.forEach(function(item) {
-                            if (!item.skipped) {
-                                it(format('{id} goal: {limit}', item), function() {
-                                    expect(item.value).to.be.above(item.limit);
-                                });
-                            }
-                        });
-                    }
-                });
-            });
-        });
+    this.timeout(mochaTimeout);
+
+    // performanceBudgetTest
+    it('performanceBudgetTest', function() {
+        return sitespeedUtil.mochaBudgetTest(config).then(
+    		function(results) {
+                expect(results).to.be.undefined;
+    		},
+    		function(errors) {
+                if (typeof errors === 'number') {
+    			 expect(errors).to.be.equal(0);
+                } else {
+                    expect(errors).to.be.null;
+                }
+    		}
+    	);
+    });
+    
+    // now, test the "run" function...
+    
+    // get new config
+    var sitespeedConfig = require('./config/sitespeed.json');
+
+    // add new parameter(s) dynamically (if needed for things like authentication cookies)
+    // sitespeedConfig.requestHeaders = {Cookie: cookie};
+    
+    it('run', function() {
+        return sitespeedUtil.run(sitespeedConfig).then(
+            function(data) {
+                // Let's inspect a small part of the massive amount of data in results
+                var result = data.result;
+                var numPages = (result.pages && result.pages.length) ? result.pages.length : 0;
+                expect(numPages).to.be.above(0);
+            },
+            function(errors) {
+                expect(errors).to.be.null;
+            }
+        );
     });
 });

@@ -1,6 +1,6 @@
 {
   "name": "sitespeed-utils",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Convenience utility to run sitespeed.io tests using ES6 promises.",
   "main": "index.js",
   "author": "Tony Erwin <tony@tonyerwin.com>",
@@ -20,6 +20,9 @@
     "performance",
     "synthetics"
   ],
+    "scripts": {
+    "test": "cd ./test && mocha"
+  },
   "dependencies": {
     "sitespeed.io": "^3.11.5",
     "chalk": "^1.1.3",

@@ -1,0 +1,14 @@
+language: node_js
+node_js: "4"
+
+install:
+  - npm install || (cat npm-debug.log; false)
+
+before_script:
+  - cd test
+  - npm install || (cat npm-debug.log; false)
+  - cd ../
+
+script:
+  - npm test
+
