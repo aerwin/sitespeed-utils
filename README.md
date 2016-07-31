@@ -1,29 +1,71 @@
-Convenience utility to run [sitespeed.io](https://www.sitespeed.io/) tests using ES6 promises.
+[![Build Status](https://travis-ci.org/aerwin/sitespeed-utils.svg?branch=master)](https://travis-ci.org/aerwin/sitespeed-utils)
 
+Convenience utility to run [sitespeed.io](https://www.sitespeed.io/) tests using ES6 promises. In addition, it faciliates integration of sitespeed.io budget tests with [Mocha](https://mochajs.org/).
 
 # usage examples:
+## run a sitespeed.io test
+### code
+```
+var sitespeedUtil = require('sitespeed-utils');
+
+// load config from a file（path can be specified）
+var sitespeedConfig = require('./config/sitespeed.json');
+
+// run test
+sitespeedUtil.run(sitespeedConfig).then(
+  function(data) {
+    // Tests completed without error. The data
+    // param contains the full set of everything
+    // sitepseed.io generates.
+  },
+  function(errors) {
+    // error occured
+  }
+);
+```
+
+### sitespeed.json example
+The JSON passed to `sitespeedUtil.run` can contain any parameter supported by sitespeed.io.
+
+```
+{
+  "url": "http://www.cnn.com",
+
+  "comment-on-depth": "Depth of 0 has to be specified as a string or it is ingnored.",
+  "depth": "0"
+}
+```
 
 ## run performance budget test using mocha
 
+### code
 ```
-var spUtil = require('sitespeed-utils');
+var sitespeedUtil = require('sitespeed-utils');
 
 // load config from a file（path can be specified）
-var config = require('./config/budget-testcases.json')
+var config = require('./config/mocha-budget.json');
 
-// add new parameter(s) dynamically if needed
-config.requestHeaders = {Cookie: cookie}
+// Execute test
+describe('Sitespeed Utils Test', function() {
+    // Determine the mochaTimeout threshold
+    var mochaTimeout = (typeof config.mochaTimeout === 'number' && config.mochaTimeout) || 120000;
 
-// invoke performance budget mocha test
-spUtil.performanceBudgetTest(config)
+    // Need to bump up time for the Sitespeed tests
+    this.timeout(mochaTimeout);
+
+    it('performanceBudgetTest', function() {
+        return sitespeedUtil.mochaBudgetTest(config);
+    });
+});
 ```
 
-## budget-testcases.json example
+### mocha-testcases.json example
+The schema for Mocha tests assumes that you'll want to run tests for 1 to N pages on a single site. For convenience, there is a testCases block, and `mochaBudgetTest` will execute a test for each one. Each test case can use different sitespeed.io params.
 
 ```
 {
   "baseUrl": "http://mochajs.org",
-  "timeout": 120000,
+  "mochaTimeout": 120000,
   "testCases": [
     {
       "pathname": "/",

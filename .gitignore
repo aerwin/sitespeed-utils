@@ -33,8 +33,5 @@ node_modules
 .DS_Store
 env.json
 
-# sitespeed test result
+# Sitespeed Results
 sitespeed-result
-
-# test entry
-main.js
